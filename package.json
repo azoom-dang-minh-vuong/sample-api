@@ -20,7 +20,7 @@
     "test": "env $(grep -v '^#' .env.test) vitest --watch=false"
   },
   "dependencies": {
-    "@azoom/nnn-router": "2.0.0-beta.0.9",
+    "@azoom/nnn-router": "2.0.0-beta.0.10",
     "@prisma/client": "^5.11.0",
     "cors": "^2.8.5",
     "date-fns": "^3.4.0",

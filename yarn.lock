@@ -17,10 +17,10 @@
     call-me-maybe "^1.0.1"
     js-yaml "^4.1.0"
 
-"@azoom/nnn-router@2.0.0-beta.0.9":
-  version "2.0.0-beta.0.9"
-  resolved "https://npm.pkg.github.com/download/@azoom/nnn-router/2.0.0-beta.0.9/cfbecc4a3fe02d290c5b9dab3c5b1d24c2186b8b#cfbecc4a3fe02d290c5b9dab3c5b1d24c2186b8b"
-  integrity sha512-s4aNEjD8fJ0VgO9bP79CjjiUA4Q9UOOYLtNvKZNEsqOjOsolsOzL3wtdTsS7bZMjQ+yuPX8BovfJkInTNNu3Qg==
+"@azoom/nnn-router@2.0.0-beta.0.10":
+  version "2.0.0-beta.0.10"
+  resolved "https://npm.pkg.github.com/download/@azoom/nnn-router/2.0.0-beta.0.10/67798fdf24fdb8b1b2ad63bd97139cac7ded6124#67798fdf24fdb8b1b2ad63bd97139cac7ded6124"
+  integrity sha512-motGbvPn2b8nUBKFOvdOgv7BvXHSgwmILMU3mFpP/spPyInrAtzrNl35HuZZDiR4aD+6Dbg6cncynZFyfLc+uQ==
   dependencies:
     chalk "^4.0.0"
     express "^4.0.0"
@@ -2672,6 +2672,7 @@ streamsearch@^1.1.0:
   integrity sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==
 
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
