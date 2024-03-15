@@ -1,0 +1,64 @@
+steps:
+  # run from the start
+  # this will decrypt the encrypted file and secret
+  - id: prepare-secret
+    name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['-']
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud secrets versions access latest --project=azoom-x --secret=azoom-github-pkg-npmrc --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .npmrc
+        gcloud secrets versions access latest --project=${PROJECT_ID} --secret=${_ENV}-${_APP_NAME} --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env
+
+  - id: prepare-build
+    name: gcr.io/azoom-x/jq
+    entrypoint: /bin/sh
+    args:
+      - -c
+      - |
+        jq '{ name, dependencies, devDependencies }' < package.json > package.deps.json
+        jq '{ name, dependencies }' < package.json > package.prod.deps.json
+
+  - id: test
+    name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        if [[ "${_ENV}" =~ ^staging ]]; then
+          docker compose -f ./cicd/test/docker-compose.yaml up --build --abort-on-container-exit --exit-code-from=test-sample-api
+        fi
+
+  # build app docker image
+  - id: build
+    name: 'gcr.io/kaniko-project/executor:latest'
+    args:
+      - --dockerfile=./cicd/release/Dockerfile
+      - --destination=${_CONTAINER_IMAGE_NAME}
+      - --cache=${_CONTAINER_BUILD_CACHE_ENABLED}
+      - --cache-ttl=${_CONTAINER_BUILD_CACHE_TTL}
+
+  # deploy container image to Cloud Run
+  - id: deploy
+    name: gcr.io/cloud-builders/gcloud
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        gcloud run deploy ${_SERVICE_NAME} \
+          --platform managed \
+          --region asia-northeast1 \
+          --no-allow-unauthenticated \
+          --image ${_CONTAINER_IMAGE_NAME} \
+          --add-cloudsql-instances ${_INSTANCE_CONNECTION_NAME} \
+          --set-env-vars INSTANCE-CONNECTION-NAME="${_INSTANCE_CONNECTION_NAME}"
+substitutions:
+  _ENV: staging
+  _APP_NAME: sample-api
+  _SERVICE_NAME: ${_ENV}-${_APP_NAME}
+  _CONTAINER_IMAGE_NAME: gcr.io/${PROJECT_ID}/${_SERVICE_NAME}
+  _CONTAINER_BUILD_CACHE_ENABLED: 'true'
+  _CONTAINER_BUILD_CACHE_TTL: 8760h
+options:
+  machineType: 'N1_HIGHCPU_8'

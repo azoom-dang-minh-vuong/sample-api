@@ -29,8 +29,9 @@ services:
       retries: 3
       start_period: 15s
   test-sample-api:
-    image: ${_CONTAINER_IMAGE_NAME}
-    command: yarn test
+    build:
+      context: ${PWD}
+      dockerfile: ./cicd/test/Dockerfile
     container_name: test-sample-api
     depends_on:
       test-sample-mysql:

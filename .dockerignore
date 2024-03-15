@@ -1,0 +1,13 @@
+.git/
+.husky/
+.vscode/
+cicd/
+node_modules/
+dist/
+.DS_Store
+.dockerignore
+.env.template
+.eslintrc.json
+.gitignore
+.prettierrc
+README.md
