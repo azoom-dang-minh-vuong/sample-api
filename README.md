@@ -2,8 +2,8 @@
 
 ## 1. Pre-requirements
 
-- Node.js version >= 20.6.0
-- yarn version 1.22.21
+- Node.js version `>= 20.6.0`
+- yarn version `1.22.21`
 - `.npmrc` file for private npm packages installation
 
 ## 1. Setup for local development
