@@ -1,3 +1,5 @@
+cicd/development/data
+cicd/test/data
 dist/
 node_modules/
 yarn-error.log
@@ -5,4 +7,4 @@ yarn-error.log
 .DS_Store
 .idea
 .npmrc
-src/__generated__/fabbrica
+vitest/fixtures/fabbrica

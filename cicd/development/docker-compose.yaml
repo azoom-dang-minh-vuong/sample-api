@@ -1,0 +1,28 @@
+version: '3.3'
+services:
+  sample-mysql:
+    image: mysql:8
+    ports:
+      - '3302:3306'
+    environment:
+      MYSQL_DATABASE: sample-db
+      MYSQL_ROOT_PASSWORD: test-password
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default_authentication_plugin=mysql_native_password --skip-log-bin --log-error-verbosity=1
+    volumes:
+      - ./data:/var/lib/mysql
+    container_name: sample-mysql
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'mysqladmin',
+          'ping',
+          '--host=localhost',
+          '--port=3306',
+          '-uroot',
+          '-ptest-password'
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 15s

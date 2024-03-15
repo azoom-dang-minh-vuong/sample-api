@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker/locale/ja'
 import { prisma } from '~/database'
-
-import { initialize, registerScalarFieldValueGenerator, defineUserFactory } from '@prisma/fabbrica'
+import { initialize, registerScalarFieldValueGenerator, defineUserFactory } from './fabbrica'
 
 initialize({
   prisma,
@@ -21,6 +20,10 @@ registerScalarFieldValueGenerator({
   Bytes: () => Buffer.from(faker.string.uuid(), 'utf8'),
   DateTime: () => faker.date.anytime(),
 })
+
+export const clearFixtures = async () => {
+  await prisma.user.deleteMany()
+}
 
 export const userFactory = defineUserFactory({
   defaultData: {

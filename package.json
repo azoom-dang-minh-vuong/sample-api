@@ -6,6 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "dcc": "docker compose -f cicd/development/docker-compose.yaml",
     "prepare": "husky",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
@@ -17,7 +18,9 @@
     "staging:clean-tags": "git fetch --tags && git push origin --delete $(git tag -l 'staging-*') || true && git fetch origin --prune 'refs/tags/*:refs/tags/*'",
     "staging:deploy": "yarn staging:clean-tags && TAG=`echo staging-$(date +%Y%m%d-%H%M%S)` && git tag $TAG && git push origin $TAG",
     "test:run": "env $(grep -v '^#' .env.test) vitest",
-    "test": "env $(grep -v '^#' .env.test) vitest --watch=false"
+    "test": "env $(grep -v '^#' .env.test) vitest --watch=false",
+    "pretest": "env $(grep -v '^#' .env.test) bash ./scripts/test/pretest.sh",
+    "posttest": "env $(grep -v '^#' .env.test) bash ./scripts/test/posttest.sh"
   },
   "dependencies": {
     "@azoom/nnn-router": "2.0.0-beta.0.10",
