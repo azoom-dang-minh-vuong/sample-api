@@ -6,10 +6,9 @@ COPY tsconfig.build.json .
 COPY .env .
 
 FROM base as build
-COPY package.deps.json package.json
-COPY yarn.lock .
+COPY yarn.lock package.json ./
+COPY node_modules/ node_modules/
 RUN yarn install
-COPY package.json .
 COPY src/ src/
 RUN yarn build
 

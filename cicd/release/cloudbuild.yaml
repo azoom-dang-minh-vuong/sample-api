@@ -12,13 +12,14 @@ steps:
         gcloud secrets versions access latest --project=${PROJECT_ID} --secret=${_ENV}-${_APP_NAME} --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env
 
   - id: prepare-build
-    name: gcr.io/azoom-x/jq
+    name: 'node:20-alpine'
     entrypoint: /bin/sh
     args:
       - -c
       - |
-        jq '{ name, dependencies, devDependencies }' < package.json > package.deps.json
+        apk add --no-cache jq > /dev/null
         jq '{ name, dependencies }' < package.json > package.prod.deps.json
+        yarn install
 
   - id: test
     name: 'gcr.io/cloud-builders/docker'
